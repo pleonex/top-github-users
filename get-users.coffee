@@ -10,11 +10,10 @@ DISQUALIFIED = [
   'beberlei' # 1.7K contribs every day
 ]
 
-saveTopLogins = ->
-  MIN_FOLLOWERS = 255
+saveTopLogins = (condition) ->
   MAX_PAGES = 10
   urls = utils.range(1, MAX_PAGES + 1).map (page) -> [
-      "https://api.github.com/search/users?q=followers:%3E#{MIN_FOLLOWERS}+sort:followers&per_page=100"
+      "https://api.github.com/search/users?q=#{condition}+sort:followers&per_page=100"
       "&page=#{page}"
     ].join('')
 
@@ -27,4 +26,8 @@ saveTopLogins = ->
       name not in DISQUALIFIED
     utils.writeStats './temp-logins.json', filtered
 
-saveTopLogins()
+#MIN_FOLLOWERS = 255
+#saveTopLogins("followers:%3E#{MIN_FOLLOWERS}")
+
+LOCATION = "Jaén"
+saveTopLogins("location:#{LOCATION}")
